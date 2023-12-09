@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000/api/v1'; // Replace with your API base URL
+// Base URL for your API
+const API_BASE_URL = 'http://localhost:3000/api/v1';
 
+// Create an axios instance with common configurations
 const api = axios.create({
     baseURL: API_BASE_URL,
     headers: {
@@ -9,14 +11,19 @@ const api = axios.create({
     },
 });
 
+// Function to fetch all todos
 export const getAllTodo = () => {
     return api.get('/tasks');
 };
 
+// Function to add a todo
+export const addTodo = (name) => {
+    return api.post('/tasks', { name });
+};
+// Function to add a todo
 export const addTodo = (name) => {
     return api.post('/tasks', { name });
 };
 
-// Add more API functions as needed, such as updateTodo, deleteTodo, etc.
 
 export default api;

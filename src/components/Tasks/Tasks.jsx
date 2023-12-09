@@ -3,44 +3,79 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import api from "../../utils/HandleApi";
-import { useTodo } from "../../provider/TodoProvider";
+import Swal from 'sweetalert2'
+import useTodo from "../../hooks/useTodo";
+
+
 
 
 const TableComponent = () => {
-    const { todo, loading, updateTodo } = useTodo();
+    const { todo, updateTodo } = useTodo(); // Using the TodoProvider
 
-    const sortedTodo = [...todo].reverse();
+    const sortedTodo = [...todo].reverse();  // Reversing the todo list to sort the latest task on top
 
+    // Function to handle the deletion of a task
     const handleDelete = (id) => {
+        //sweet alert for warning to delete
+        Swal.fire({
+            title: "Are you sure You Want To Delete?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //delete request to api
+                api.delete(`/tasks/${id}`)
+                    .then(response => {
+                        updateTodo(); // Refreshing todos after deletion
+                    })
+                    .catch(error => {
+                        console.error('Error deleting todo:', error);
+                    });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your Task has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
 
-        api.delete(`/tasks/${id}`)
-            .then(response => {
-                updateTodo()
-                console.log('Todo deleted');
-            })
-            .catch(error => {
-                console.error('Error deleting todo:', error);
-            });
     };
 
+    // Function to mark a task as done
     const markAsDone = (id) => {
-        api.patch(`/tasks/${id}`, { completed: true })
+        api.patch(`/tasks/${id}`, { completed: true }) //patch request to api
             .then(response => {
-                updateTodo()
-                console.log('Todo updated:', response.data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Marked As Done",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                updateTodo(); // Refreshing todos after marking as done
             })
             .catch(error => {
                 console.error('Error updating todo:', error);
             });
     }
 
+    // Function to mark a task as due
     const markAsDue = (id) => {
-        api.patch(`/tasks/${id}`, { completed: false })
+        api.patch(`/tasks/${id}`, { completed: false }) //patch request to api
             .then(response => {
-                updateTodo()
-                console.log('Todo updated:', response.data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Marked As Due",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                updateTodo(); // Refreshing todos after marking as due
             })
             .catch(error => {
                 console.error('Error updating todo:', error);
@@ -59,7 +94,7 @@ const TableComponent = () => {
                     </tr>
                 </thead>
                 <tbody className="bg-gray-100">
-                    {sortedTodo.map((item) => (
+                    {sortedTodo.map((item) =>
                         <tr
                             key={item._id}
                             className="text-center hover:bg-gray-200 transition-colors"
@@ -79,7 +114,7 @@ const TableComponent = () => {
                                 </div>
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>

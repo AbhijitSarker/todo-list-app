@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { getAllTodo } from '../utils/HandleApi';
 
-const TodoContext = createContext();
+// Creating a context to manage todo state
+export const TodoContext = createContext();
 
 const TodoProvider = ({ children }) => {
     const [todo, setTodo] = useState([]);
@@ -9,29 +10,31 @@ const TodoProvider = ({ children }) => {
 
     useEffect(() => {
         // Fetch todos when the component mounts
-        setLoading(true);
+        setLoading(true); // Set loading to true before fetching todos
+
+        //get request to load todos
         getAllTodo()
             .then((data) => {
-                setTodo(data.data.tasks);
-                setLoading(false);
+                setTodo(data.data.tasks); // Update todo state with fetched todos
+                setLoading(false); // Set loading to false after fetching todos
             })
             .catch((error) => {
                 console.error('Error fetching todo:', error);
-                setLoading(false);
+                setLoading(false); // Set loading to false in case of error
             });
     }, []);
 
     const updateTodo = () => {
         // Function to manually update todo
-        setLoading(true);
+        setLoading(true); // Set loading to true before fetching todos
         getAllTodo()
             .then((data) => {
-                setTodo(data.data.tasks);
-                setLoading(false);
+                setTodo(data.data.tasks); // Update todo state with fetched todos
+                setLoading(false); // Set loading to false after fetching todos
             })
             .catch((error) => {
                 console.error('Error fetching todo:', error);
-                setLoading(false);
+                setLoading(false); // Set loading to false in case of error
             });
     };
 
@@ -42,12 +45,6 @@ const TodoProvider = ({ children }) => {
     );
 };
 
-const useTodo = () => {
-    const context = useContext(TodoContext);
-    if (!context) {
-        throw new Error('useTodo must be used within a TodoProvider');
-    }
-    return context;
-};
 
-export { TodoProvider, useTodo };
+
+export { TodoProvider };

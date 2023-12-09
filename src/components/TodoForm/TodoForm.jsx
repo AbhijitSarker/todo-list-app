@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from "react-router-dom";
-import { addTodo, getAllTodo } from '../../utils/HandleApi';
-import { useTodo } from '../../provider/TodoProvider';
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
+import { addTodo } from '../../utils/HandleApi';
+import Swal from 'sweetalert2'
+import useTodo from '../../hooks/useTodo';
 
-const TodoForm = ({ name }) => {
+const TodoForm = () => {
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
-    const { loading, updateTodo } = useTodo();
 
-    const location = useLocation();
+    const { updateTodo } = useTodo(); // Using the useTodo hook from  TodoProvider
 
     const handleTaskChange = (e) => {
         setTask(e.target.value);
@@ -21,11 +21,17 @@ const TodoForm = ({ name }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Making a POST request to add a new task
         addTodo(task)
             .then(response => {
-                updateTodo()
-                // Handle the response after a successful POST request
-                console.log('Todo added:', response.data);
+                updateTodo(); // Refreshing todos after adding a new task
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your Task has been Added",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 // Clear the form fields after a successful submission
                 setTask('');
                 setDescription('');
@@ -67,16 +73,7 @@ const TodoForm = ({ name }) => {
                     ></textarea>
                 </div>
                 <div>
-                    <button
-                        type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                        {name}
-                    </button>
-                    {
-                        location.pathname === '/edit' && <Link to={'/'}><button className="float-right border rounded-md px-3 py-2 text-white bg-red-600">Go Back</button></Link>
-
-                    }
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  >  Add Task </button>
                 </div>
             </form>
         </div>
