@@ -4,34 +4,46 @@ import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api, { getAllTodo } from "../../utils/HandleApi";
+import api from "../../utils/HandleApi";
+import { useTodo } from "../../provider/TodoProvider";
 
 
 const TableComponent = () => {
-    const [todo, setTodo] = useState([]);
-    const [fetchData, setFetchData] = useState(true);
-    useEffect(() => {
-
-        getAllTodo()
-            .then((data) => {
-                setTodo(data.data.tasks);
-                setFetchData(false);
-            })
-            .catch((error) => {
-                // Handle error
-                console.error('Error fetching todo:', error);
-            });
-    }, [todo]);
+    const { todo, loading, updateTodo } = useTodo();
 
     const sortedTodo = [...todo].reverse();
+
     const handleDelete = (id) => {
 
         api.delete(`/tasks/${id}`)
             .then(response => {
+                updateTodo()
                 console.log('Todo deleted');
             })
             .catch(error => {
                 console.error('Error deleting todo:', error);
+            });
+    };
+
+    const markAsDone = (id) => {
+        api.patch(`/tasks/${id}`, { completed: true })
+            .then(response => {
+                updateTodo()
+                console.log('Todo updated:', response.data);
+            })
+            .catch(error => {
+                console.error('Error updating todo:', error);
+            });
+    }
+
+    const markAsDue = (id) => {
+        api.patch(`/tasks/${id}`, { completed: false })
+            .then(response => {
+                updateTodo()
+                console.log('Todo updated:', response.data);
+            })
+            .catch(error => {
+                console.error('Error updating todo:', error);
             });
     };
 
@@ -54,8 +66,8 @@ const TableComponent = () => {
                         >
                             <td className="py-2 px-4 text-4xl">
                                 {
-                                    item.completed ? <div className="flex justify-center text-green-800"> <IoCheckmarkDoneCircle />  </div>
-                                        : <div className="flex justify-center text-neutral-700"><IoCheckmarkDoneCircleOutline className=" hover:text-green-800 rounded-full" /></div>
+                                    item.completed ? <div onClick={() => markAsDue(item._id)} className="flex justify-center text-green-800"> <IoCheckmarkDoneCircle />  </div>
+                                        : <div onClick={() => markAsDone(item._id)} className="flex justify-center text-neutral-700"><IoCheckmarkDoneCircleOutline className=" hover:text-green-800 rounded-full" /></div>
                                 }
                             </td>
                             <td className="py-3 px-2">{item.name}</td>

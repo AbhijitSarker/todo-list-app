@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { addTodo, getAllTodo } from '../../utils/HandleApi';
+import { useTodo } from '../../provider/TodoProvider';
 
 const TodoForm = ({ name }) => {
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
+    const { loading, updateTodo } = useTodo();
 
     const location = useLocation();
 
@@ -21,6 +23,7 @@ const TodoForm = ({ name }) => {
 
         addTodo(task)
             .then(response => {
+                updateTodo()
                 // Handle the response after a successful POST request
                 console.log('Todo added:', response.data);
                 // Clear the form fields after a successful submission
@@ -31,6 +34,7 @@ const TodoForm = ({ name }) => {
                 // Handle error in case the POST request fails
                 console.error('Error adding todo:', error);
             });
+
     }
     return (
         <div className="mt-8 container mx-auto">
