@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
+import { addTodo, getAllTodo } from '../../utils/HandleApi';
 
 const TodoForm = ({ name }) => {
     const [task, setTask] = useState('');
+    const [todo, setTodo] = useState([]);
     const [description, setDescription] = useState('');
 
     const location = useLocation();
@@ -15,17 +17,29 @@ const TodoForm = ({ name }) => {
         setDescription(e.target.value);
     };
 
+
+    // const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getAllTodo(setTodo)
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Here, you can perform the logic to add the task
-        console.log('Task:', task);
-        console.log('Description:', description);
 
-        // Reset the form fields after submitting
-        setTask('');
-        setDescription('');
-    };
-
+        addTodo(task)
+            .then(response => {
+                // Handle the response after a successful POST request
+                console.log('Todo added:', response.data);
+                // Clear the form fields after a successful submission
+                setTask('');
+                setDescription('');
+            })
+            .catch(error => {
+                // Handle error in case the POST request fails
+                console.error('Error adding todo:', error);
+            });
+    }
     return (
         <div className="mt-8 container mx-auto">
             <form onSubmit={handleSubmit}>
@@ -36,7 +50,7 @@ const TodoForm = ({ name }) => {
                     <input
                         type="text"
                         id="task"
-                        className="border rounded-lg py-2 px-3 w-full bg-transparent"
+                        className="border-b-2 border-black rounded-lg py-2 px-3 w-full"
                         value={task}
                         onChange={handleTaskChange}
                     />
@@ -50,7 +64,7 @@ const TodoForm = ({ name }) => {
                     </label>
                     <textarea
                         id="description"
-                        className="border rounded-lg py-2 px-3 w-full"
+                        className="border-b-2 border-black rounded-lg py-2 px-3 w-full"
                         rows="3"
                         value={description}
                         onChange={handleDescriptionChange}

@@ -3,21 +3,23 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getAllTodo } from "../../utils/HandleApi";
+
 
 const TableComponent = () => {
-    // Static data for demonstration
-    const data = [
-        { _id: 1, task: 'Finish project', completed: false },
-        { _id: 2, task: 'Go to the gym', completed: true },
-        { _id: 4, task: 'Finish project', completed: false },
-        { _id: 3, task: 'Buy groceries', completed: false },
-        { _id: 5, task: 'Go to the gym', completed: true },
-        { _id: 6, task: 'Buy groceries', completed: false },
-        // Add more sample data as needed
-    ];
+    const [todo, setTodo] = useState([]);
+
+    useEffect(() => {
+        getAllTodo()
+            .then((data) => {
+                setTodo(data.data.tasks)
+            })
+    }, [todo])
 
     return (
         <div className="flex justify-center items-center  mt-10 container mx-auto">
+            {/* {loading ? <>loading</> : null} */}
             <table className="min-w-full border rounded-lg overflow-x-scroll">
                 <thead className="bg-gray-800 text-white">
                     <tr>
@@ -28,8 +30,9 @@ const TableComponent = () => {
                     </tr>
                 </thead>
                 <tbody className="bg-gray-100">
-                    {data.map((item) => (
+                    {todo.map((item) => (
                         <tr
+
                             key={item._id}
                             className="text-center hover:bg-gray-200 transition-colors"
                         >
@@ -39,7 +42,7 @@ const TableComponent = () => {
                                         : <div className="flex justify-center text-neutral-700"><IoCheckmarkDoneCircleOutline className=" hover:text-green-800 rounded-full" /></div>
                                 }
                             </td>
-                            <td className="py-3 px-2">{item.task}</td>
+                            <td className="py-3 px-2">{item.name}</td>
                             <td className="py-3 px-2">Dec 9, 2023</td>
                             <td className="py-3 px-2">
                                 <div className="flex justify-center items-center">
