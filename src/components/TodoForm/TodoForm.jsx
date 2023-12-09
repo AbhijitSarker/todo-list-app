@@ -4,7 +4,6 @@ import { addTodo, getAllTodo } from '../../utils/HandleApi';
 
 const TodoForm = ({ name }) => {
     const [task, setTask] = useState('');
-    const [todo, setTodo] = useState([]);
     const [description, setDescription] = useState('');
 
     const location = useLocation();
@@ -16,13 +15,6 @@ const TodoForm = ({ name }) => {
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value);
     };
-
-
-    // const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        getAllTodo(setTodo)
-    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
