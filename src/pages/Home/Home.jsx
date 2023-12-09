@@ -1,20 +1,14 @@
-import Tasks from "./Tasks/Tasks";
+import Tasks from "../../components/Tasks/Tasks";
+import TodoForm from "../../components/TodoForm/TodoForm";
 
 const Home = () => {
     return (
-        <div>
-            <div className="container mx-auto my-20 font-serif gradient__text">
-                <input className="border py-2 px-4 rounded-md" type="text" placeholder={'Add your Task'} />
-                <button className="border py-2 px-4 rounded-md">Add Task</button> <br />
-                <div>
-                    <label htmlFor="">Description</label>  <br />
-                    <textarea className="border" name="" id="" cols="30" rows="5"></textarea>
-                </div>
-            </div>
+        <div className="font-serif mx-2">
+            <h1 className="text-6xl font-bold text-center my-5">Add Task</h1>
+            <TodoForm name={"Add Task"}></TodoForm>
 
-            <div>
-                <Tasks></Tasks>
-            </div>
+            <Tasks></Tasks>
+
         </div>
     );
 };
