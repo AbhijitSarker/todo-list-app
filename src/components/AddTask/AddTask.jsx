@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
 import { addTodo } from '../../utils/HandleApi';
 import Swal from 'sweetalert2'
 import useTodo from '../../hooks/useTodo';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const TodoForm = () => {
+const AddTask = () => {
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState(null);
 
     const { updateTodo } = useTodo(); // Using the useTodo hook from  TodoProvider
-
     const handleTaskChange = (e) => {
         setTask(e.target.value);
     };
@@ -18,12 +19,17 @@ const TodoForm = () => {
         setDescription(e.target.value);
     };
 
+    const handleDateChange = (date) => {
+        setDueDate(date);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Making a POST request to add a new task
-        addTodo(task)
+        addTodo({ name: task, description: description, dueDate: dueDate })
             .then(response => {
+
                 updateTodo(); // Refreshing todos after adding a new task
                 Swal.fire({
                     position: "top-end",
@@ -73,11 +79,29 @@ const TodoForm = () => {
                     ></textarea>
                 </div>
                 <div>
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  >  Add Task </button>
+                    <div className="w-full max-w-xs">
+                        <label htmlFor="dueDate" className="block text-gray-700 text-sm font-bold mb-2">
+                            Due Date:
+                        </label>
+                        <div className="relative">
+                            <DatePicker
+                                id="dueDate"
+                                selected={dueDate}
+                                onChange={handleDateChange}
+                                className="w-full border rounded-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                dateFormat="dd MMM yyyy" // Customize date format if needed
+                                minDate={new Date()} // Optionally set a minimum date
+                            />
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  >  Add Task </button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default TodoForm;
+export default AddTask;

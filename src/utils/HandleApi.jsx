@@ -17,12 +17,8 @@ export const getAllTodo = () => {
 };
 
 // Function to add a todo
-export const addTodo = (name) => {
-    return api.post('/tasks', { name });
-};
-// Function to add a todo
-export const addTodo = (name) => {
-    return api.post('/tasks', { name });
+export const addTodo = (data) => {
+    return api.post('/tasks', data);
 };
 
 

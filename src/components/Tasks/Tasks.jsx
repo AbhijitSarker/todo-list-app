@@ -7,9 +7,6 @@ import api from "../../utils/HandleApi";
 import Swal from 'sweetalert2'
 import useTodo from "../../hooks/useTodo";
 
-
-
-
 const TableComponent = () => {
     const { todo, updateTodo } = useTodo(); // Using the TodoProvider
 
@@ -45,7 +42,6 @@ const TableComponent = () => {
         });
 
     };
-
     // Function to mark a task as done
     const markAsDone = (id) => {
         api.patch(`/tasks/${id}`, { completed: true }) //patch request to api
@@ -82,6 +78,18 @@ const TableComponent = () => {
             });
     };
 
+    const dateFormatter = (dueDate) => {
+        const inputDate = dueDate;
+        const date = new Date(inputDate);
+
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'short' });
+        const year = date.getFullYear();
+
+        const formattedDate = `${day} ${month} ${year}`;
+        return formattedDate;
+    }
+
     return (
         <div className="flex justify-center items-center  mt-10 container mx-auto">
             <table className="min-w-full border rounded-lg overflow-x-scroll">
@@ -106,7 +114,7 @@ const TableComponent = () => {
                                 }
                             </td>
                             <td className="py-3 px-2">{item.name}</td>
-                            <td className="py-3 px-2">Dec 9, 2023</td>
+                            <td className="py-3 px-2">{dateFormatter(item.dueDate)}</td>
                             <td className="py-3 px-2">
                                 <div className="flex justify-center items-center">
                                     <Link to={`/edit/${item._id}`}><button className="flex justify-center items-center gap-1 border rounded-md px-3 py-2 text-white bg-green-800"><FaEdit /></button></Link>
