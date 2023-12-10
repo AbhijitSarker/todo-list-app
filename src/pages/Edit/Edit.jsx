@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import useTodo from "../../hooks/useTodo";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Helmet } from "react-helmet-async";
 
 
 const Edit = () => {
@@ -111,6 +112,9 @@ const Edit = () => {
 
     return (
         <div className="container mx-auto font-serif">
+            <Helmet>
+                <title>Edit To Do</title>
+            </Helmet>
             <h1 className="text-6xl font-bold text-center my-5">Edit Task</h1>
 
             <div className="mt-8 mx-2">

@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FaGoogle, FaGithub } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm()
 
-    const { createUser, updateUserProfile } = useAuth();
+    const { createUser } = useAuth();
 
     const navigate = useNavigate()
 
@@ -30,7 +30,7 @@ const SignUp = () => {
     return (
         <div>
             <Helmet>
-                <title>Sign Up | Doc House</title>
+                <title>Sign Up</title>
             </Helmet>
             <div className=''>
                 <div className="md:w-1/2 flex flex-col justify-center items-center mb-8">
@@ -64,11 +64,10 @@ const SignUp = () => {
                         <div className="border-t border-gray-300 mt-4"></div>
                         <p className='text-center'>Or sign in with</p>
                         <div className="border-t border-gray-300 mb-4"></div>
-                        <div className='flex justify-evenly text-3xl text-[#07332F]'>
-                            <FaGoogle />
-                            <FaGithub />
-                        </div>
                     </form>
+                    <div className='flex justify-evenly text-3xl text-[#07332F]'>
+                        <SocialLogin></SocialLogin>
+                    </div>
 
 
                 </div>

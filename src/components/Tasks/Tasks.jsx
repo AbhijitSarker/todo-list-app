@@ -109,8 +109,8 @@ const Tasks = () => {
                         >
                             <td className="py-2 px-4 text-4xl">
                                 {
-                                    item.completed ? <div onClick={() => markAsDue(item._id)} className="flex justify-center text-green-800"> <IoCheckmarkDoneCircle />  </div>
-                                        : <div onClick={() => markAsDone(item._id)} className="flex justify-center text-neutral-700"><IoCheckmarkDoneCircleOutline className=" hover:text-green-800 rounded-full" /></div>
+                                    item.completed ? <div className="flex justify-center text-green-800 cursor-pointer"> <IoCheckmarkDoneCircle onClick={() => markAsDue(item._id)} className="cursor-pointer rounded-full" />  </div>
+                                        : <div className="flex justify-center text-neutral-700"><IoCheckmarkDoneCircleOutline onClick={() => markAsDone(item._id)} className="cursor-pointer hover:text-green-800 rounded-full" /></div>
                                 }
                             </td>
                             <td className="py-3 px-2">{item.name}</td>

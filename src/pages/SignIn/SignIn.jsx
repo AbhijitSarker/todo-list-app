@@ -34,13 +34,10 @@ const SignIn = () => {
     return (
         <div>
             <Helmet>
-                <title>Sign In | Doc House</title>
+                <title>Sign In</title>
             </Helmet>
-            <div className='md:flex  md:flex-row'>
-                <div className="relative md:w-1/2 bg-[#07332F] h-screen flex ">
-                    <img className='md:w-[100%] object-contain md:m-40' src={img} alt="" />
-                    <img className='absolute top-0 right-0' src={frame} alt="" />
-                </div>
+            <div className=''>
+
                 <div className="md:w-1/2 flex flex-col justify-center items-center mb-8">
 
                     <form onSubmit={handleSubmit(onSubmit)} className="md:w-2/3 mx-2 md:mx-auto mt-8 p-6 border border-[#E6E6E6] bg-white  shadow-md rounded-md">

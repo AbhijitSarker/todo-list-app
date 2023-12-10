@@ -38,19 +38,6 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     }
 
-    //update user profile
-    const updateUserProfile = (name, photo) => {
-        return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photo
-        }).then(() => {
-            // Profile updated!
-            // ...
-        }).catch((error) => {
-            // An error occurred
-            // ...
-        });
-    }
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
@@ -62,7 +49,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     const authInfo = {
-        user, loading, createUser, login, logout, updateUserProfile, googleSignIn
+        user, loading, createUser, login, logout, googleSignIn
     }
 
     return (
