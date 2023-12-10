@@ -5,6 +5,7 @@ import Edit from "../pages/Edit/Edit";
 
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -13,11 +14,11 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home></Home>
+                element: <PrivateRoutes><Home></Home></PrivateRoutes>
             },
             {
                 path: "/edit/:id",
-                element: <Edit></Edit>
+                element: <PrivateRoutes><Edit></Edit></PrivateRoutes>
             },
             {
                 path: "/signin",

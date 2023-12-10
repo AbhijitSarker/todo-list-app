@@ -13,7 +13,6 @@ const SignUp = () => {
     const navigate = useNavigate()
 
     const onSubmit = (data) => {
-        console.log(data);
         createUser(data.email, data.password)
             .then(result => {
                 reset();
@@ -36,17 +35,8 @@ const SignUp = () => {
                 <div className="md:w-1/2 flex flex-col justify-center items-center mb-8">
 
                     <form onSubmit={handleSubmit(onSubmit)} className="md:w-2/3 mx-2 md:mx-auto mt-8 p-6 border border-[#E6E6E6] bg-white  shadow-md rounded-md">
-                        <h2 className='text-3xl font-bold mb-8'>Sign up to Doc House</h2>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-gray-700 font-semibold mb-1">Name:</label>
-                            <input type="text" id="name" {...register('name', { required: 'Name is required' })} className="p-2 rounded-md w-full bg-[#F3F3F3]" />
-                            {errors.name && <span className="text-red-500">{errors.name.message}</span>}
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="username" className="block text-gray-700 font-semibold mb-1">Username:</label>
-                            <input type="text" id="username" {...register('username', { required: 'Username is required' })} className="p-2 rounded-md w-full bg-[#F3F3F3]" />
-                            {errors.username && <span className="text-red-500">{errors.username.message}</span>}
-                        </div>
+                        <h2 className='text-3xl font-bold mb-8'>Sign up</h2>
+
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">Email:</label>
                             <input type="email" id="email" {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })} className="p-2 rounded-md w-full bg-[#F3F3F3]" />
@@ -64,12 +54,10 @@ const SignUp = () => {
                         <div className="border-t border-gray-300 mt-4"></div>
                         <p className='text-center'>Or sign in with</p>
                         <div className="border-t border-gray-300 mb-4"></div>
+                        <div className='flex justify-evenly text-3xl text-[#07332F]'>
+                            <SocialLogin></SocialLogin>
+                        </div>
                     </form>
-                    <div className='flex justify-evenly text-3xl text-[#07332F]'>
-                        <SocialLogin></SocialLogin>
-                    </div>
-
-
                 </div>
             </div>
         </div>
