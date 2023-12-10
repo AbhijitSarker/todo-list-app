@@ -7,7 +7,7 @@ import api from "../../utils/HandleApi";
 import Swal from 'sweetalert2'
 import useTodo from "../../hooks/useTodo";
 
-const TableComponent = () => {
+const Tasks = () => {
     const { todo, updateTodo } = useTodo(); // Using the TodoProvider
 
     const sortedTodo = [...todo].reverse();  // Reversing the todo list to sort the latest task on top
@@ -129,4 +129,4 @@ const TableComponent = () => {
     );
 };
 
-export default TableComponent;
+export default Tasks;

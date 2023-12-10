@@ -1,5 +1,5 @@
-import TableComponent from "../../components/Tasks/Tasks";
 import AddTask from "../../components/AddTask/AddTask";
+import Tasks from "../../components/Tasks/Tasks";
 
 const Home = () => {
     return (
@@ -7,7 +7,7 @@ const Home = () => {
             <h1 className="text-6xl font-bold text-center my-5">Add Task</h1>
 
             <AddTask></AddTask>
-            <TableComponent></TableComponent>
+            <Tasks></Tasks>
 
         </div>
     );
